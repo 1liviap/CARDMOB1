@@ -12,7 +12,6 @@ export default function LoginScreen({ navigation }: any) {
 
     const handleLogin = async () => {
         try {
-            // Lógica de login / conexão com backend.
             const token = await requestLogin(email, password);
             login(token);
             console.log('Login ok');

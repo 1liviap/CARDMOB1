@@ -1,6 +1,7 @@
-export async function fakeLogin(email: string, password: string): Promise<string> {
-    if (email === 'teste@example.com' && password === '123') {
-        return Promise.resolve('fake-jwt-token');
+export async function requestLogin(email: string, password: string): Promise<string> {
+    if (email === "teste@example.com" && password === "123") {
+      return Promise.resolve("fake-jwt-token");
     }
-    return Promise.reject('Credenciais inválidas');
-}
+    return Promise.reject(new Error("Credenciais inválidas"));
+  }
+  

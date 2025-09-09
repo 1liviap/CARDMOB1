@@ -1,13 +1,15 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { FontAwesome } from "@expo/vector-icons";
 
 import { RootStackParamList, TabParamList } from "./types";
 
+// Telas do app - área não logada
 import HomeScreen from "../screens/HomeScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import LoginScreen from "../screens/LoginScreen";
+import CatalogScreen from "../screens/catalog/CatalogScreen";
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -17,17 +19,14 @@ function TabNavigator() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof FontAwesome.glyphMap;
+          const icons: Record<string, keyof typeof FontAwesome.glyphMap> = {
+            Catalog: "tags",
+            Settings: "cog",
+            Register: "user-plus",
+          };
 
-          if (route.name === "Home") {
-            iconName = "home";
-          } else if (route.name === "Settings") {
-            iconName = "cog";
-          } else if (route.name === "Register") {
-            iconName = "user-plus";
-          } else {
-            iconName = "circle";
-          }
+          // fallback caso a rota não esteja no objeto
+          const iconName = icons[route.name] ?? "question";
 
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
@@ -36,7 +35,11 @@ function TabNavigator() {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen
+        name="Catalog"
+        component={CatalogScreen}
+        options={{ title: "Menu" }}
+      />
       <Tab.Screen name="Settings" component={HomeScreen} />
       <Tab.Screen name="Register" component={RegisterScreen} />
     </Tab.Navigator>

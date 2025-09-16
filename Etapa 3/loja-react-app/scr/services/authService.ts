@@ -1,6 +1,8 @@
-import Config from "react-native-config";
+import Constants from 'expo-constants'; // novo
 
-const API_URL = 'http://10.81.205.500:5000';
+// const API_URL = Config.API_URL;
+// const API_URL = 'http://10.81.205.05:5000';
+const { apiUrl } = Constants.expoConfig?.extra || {}; 
 
 export async function fakeLogin(email: string, password: string): Promise<string> {
     if (email === 'teste@example.com' && password === '123') {
@@ -10,9 +12,10 @@ export async function fakeLogin(email: string, password: string): Promise<string
 }
 
 export async function requestLogin(email: string, password: string): Promise<string> {
-    console.log(API_URL);
+    console.log(apiUrl); 
     try {
-        const response = await fetch(`${API_URL}/api/users/login`, {
+        
+        const response = await fetch(`${apiUrl}/api/users/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

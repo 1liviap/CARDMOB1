@@ -1,7 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { FontAwesome } from "@expo/vector-icons";
+
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { RootStackParamList, TabParamList } from "./types";
 
@@ -10,6 +11,7 @@ import HomeScreen from "../screens/HomeScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import LoginScreen from "../screens/LoginScreen";
 import CatalogScreen from "../screens/catalog/CatalogScreen";
+import CartScreen from "../screens/cart/CartScreen";
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -18,15 +20,21 @@ function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          const icons: Record<string, keyof typeof FontAwesome.glyphMap> = {
-            Catalog: "tags",
-            Settings: "cog",
-            Register: "user-plus",
-          };
+        tabBarIcon: ({ color, focused, size }) => {
+          let iconName: keyof typeof FontAwesome.glyphMap = "circle";
 
-          // fallback caso a rota não esteja no objeto
-          const iconName = icons[route.name] ?? "question";
+          if (route.name === "Catalog") {
+            iconName = "tags";
+          }
+          if (route.name === "Cart") {
+            iconName = "shopping-cart";
+          }
+          if (route.name === "Settings") {
+            iconName = "cog";
+          }
+          if (route.name === "Register") {
+            iconName = "user-plus";
+          }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
@@ -40,8 +48,21 @@ function TabNavigator() {
         component={CatalogScreen}
         options={{ title: "Menu" }}
       />
-      <Tab.Screen name="Settings" component={HomeScreen} />
-      <Tab.Screen name="Register" component={RegisterScreen} />
+      <Tab.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{ title: "Seu Carrinho" }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={HomeScreen}
+        options={{ title: "Configurações" }}
+      />
+      <Tab.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{ title: "Cadastrar" }}
+      />
     </Tab.Navigator>
   );
 }

@@ -4,13 +4,16 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ThemeProvider } from './scr/contexts/ThemeContext'; // NOVA
 import RootNavigator from './scr/navigation/RootNavigator';
 import { AuthProvider } from './scr/contexts/AuthContext';
+import { ShopProvider } from './scr/contexts/ShopContext';
 
 
 export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <RootNavigator />
+        <ShopProvider>
+          <RootNavigator />
+        </ShopProvider>
       </AuthProvider>
     </ThemeProvider>
   );

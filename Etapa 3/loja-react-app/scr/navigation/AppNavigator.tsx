@@ -1,13 +1,14 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-import { RootStackParamList, TabParamList } from "./types";
+import { RootStackParamList, TabParamList } from './types';
 
-// Telas do app - área não logada
+// Telas do app - área não logada.
 import HomeScreen from "../screens/HomeScreen";
+// importar depois que implementar: DetailsScreen, SettingsScreen
 import RegisterScreen from "../screens/RegisterScreen";
 import LoginScreen from "../screens/LoginScreen";
 import CatalogScreen from "../screens/catalog/CatalogScreen";
@@ -21,22 +22,17 @@ function TabNavigator() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, focused, size }) => {
-          let iconName: keyof typeof FontAwesome.glyphMap = "circle";
+          // Garantir que iconName sempre seja uma string válida.
+          // Podemos usar uma expressão ternária simples:
+          const iconName =
+            route.name === "Catalog" ? "tags"
+            : route.name === "Cart" ? "shopping-cart"
+            : route.name === "Settings" ? "cog" // ícone padrão para Settings
+            : route.name === "Register" ? "user-plus" // se quiser
+            : "question-circle"; // fallback
 
-          if (route.name === "Catalog") {
-            iconName = "tags";
-          }
-          if (route.name === "Cart") {
-            iconName = "shopping-cart";
-          }
-          if (route.name === "Settings") {
-            iconName = "cog";
-          }
-          if (route.name === "Register") {
-            iconName = "user-plus";
-          }
-
-          return <FontAwesome name={iconName} size={size} color={color} />;
+          // Retorna o ícone — sempre com um nome válido.
+          return <FontAwesome name={iconName as any} size={size} color={color} />;
         },
         tabBarActiveTintColor: "red",
         tabBarInactiveTintColor: "grey",
@@ -46,22 +42,18 @@ function TabNavigator() {
       <Tab.Screen
         name="Catalog"
         component={CatalogScreen}
-        options={{ title: "Menu" }}
+        options={{ title: 'Menu' }}
       />
       <Tab.Screen
         name="Cart"
         component={CartScreen}
-        options={{ title: "Seu Carrinho" }}
+        options={{ title: 'Seu Carrinho' }}
       />
-      <Tab.Screen
-        name="Settings"
-        component={HomeScreen}
-        options={{ title: "Configurações" }}
-      />
+      <Tab.Screen name="Settings" component={HomeScreen} />
       <Tab.Screen
         name="Register"
         component={RegisterScreen}
-        options={{ title: "Cadastrar" }}
+        options={{ title: "Cadastrar", headerShown: true }}
       />
     </Tab.Navigator>
   );
@@ -78,7 +70,7 @@ function StackNavigator() {
       <AppStack.Screen
         name="Details"
         component={HomeScreen}
-        options={{ title: "Detalhes" }}
+        options={{ title: 'Detalhes' }}
       />
       <AppStack.Screen
         name="Login"

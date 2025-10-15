@@ -35,7 +35,6 @@ const CartScreen = ({ navigation }: any) => {
                         keyExtractor={(item: any) => item.id.toString()}
                     />
                     <View style={styles.totalContainer}>
-                        <Text style={styles.totalText}>Total R$ {handleCheckout}</Text>
                         <TouchableOpacity
                             onPress={handleCheckout}
                             style={styles.clearButton}

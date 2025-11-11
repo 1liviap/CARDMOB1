@@ -18,45 +18,42 @@ const AppStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
 function TabNavigator() {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, focused, size }) => {
-          // Garantir que iconName sempre seja uma string válida.
-          // Podemos usar uma expressão ternária simples:
-          const iconName =
-            route.name === "Catalog" ? "tags"
-            : route.name === "Cart" ? "shopping-cart"
-            : route.name === "Settings" ? "cog" // ícone padrão para Settings
-            : route.name === "Register" ? "user-plus" // se quiser
-            : "question-circle"; // fallback
-
-          // Retorna o ícone — sempre com um nome válido.
-          return <FontAwesome name={iconName as any} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: "red",
-        tabBarInactiveTintColor: "grey",
-        headerShown: false,
-      })}
-    >
-      <Tab.Screen
-        name="Catalog"
-        component={CatalogScreen}
-        options={{ title: 'Menu' }}
-      />
-      <Tab.Screen
-        name="Cart"
-        component={CartScreen}
-        options={{ title: 'Seu Carrinho' }}
-      />
-      <Tab.Screen name="Settings" component={HomeScreen} />
-      <Tab.Screen
-        name="Register"
-        component={RegisterScreen}
-        options={{ title: "Cadastrar", headerShown: true }}
-      />
-    </Tab.Navigator>
-  );
+    return (
+        <Tab.Navigator
+            screenOptions={({route, navigation}) => ({
+              tabBarIcon: ({ color, focused, size}) => {
+                let iconName;
+                if (route.name === "Catalog") {
+                  iconName = focused ? "tags" : "tags";
+                }
+                if (route.name === "Cart") {
+                  iconName = focused ? "shopping-cart" : "shopping-cart";
+                }
+                return <FontAwesome name={iconName} size={size} color={color} />
+              },
+              tabBarActiveTintColor: "red",
+              tabBarInactiveTintColor: "grey",
+              headerShown: false,
+            })}
+          >
+            <Tab.Screen 
+              name="Catalog"
+              component={CatalogScreen}
+              options={{title: 'Menu'}}
+              />
+            <Tab.Screen
+              name="Cart"
+              component={CartScreen}
+              options={{title: 'Seu Carrinho', headerShown: true}}
+            />
+            <Tab.Screen name="Settings" component={HomeScreen} />
+            <Tab.Screen
+              name="Register"
+              component={RegisterScreen}
+              options={{title: "Cadastrar", headerShown: true}} // novo
+            />
+        </Tab.Navigator>
+    );
 }
 
 function StackNavigator() {
@@ -72,7 +69,7 @@ function StackNavigator() {
         component={HomeScreen}
         options={{ title: 'Detalhes' }}
       />
-      <AppStack.Screen
+      <AppStack.Screen 
         name="Login"
         component={LoginScreen}
         options={{ title: "Acessar" }}
@@ -82,5 +79,7 @@ function StackNavigator() {
 }
 
 export default function AppNavigator() {
-  return <StackNavigator />;
-}
+  return (
+    <StackNavigator />
+  );
+};
